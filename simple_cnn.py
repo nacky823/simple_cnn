@@ -21,6 +21,11 @@ def one_hot(y: np.ndarray, K: int) -> np.ndarray:
     return Y
 
 
+def cross_entropy(P: np.ndarray, Y: np.ndarray) -> float:
+    eps = 1e-12
+    return float(-np.mean(np.sum(Y * np.log(P + eps), axis=1)))
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
@@ -30,3 +35,7 @@ if __name__ == "__main__":
     print("softmax:", softmax(z))
     y = np.array([0, 2], dtype=np.int64)
     print("one_hot:", one_hot(y, 3))
+    y2 = np.array([2], dtype=np.int64)
+    P = softmax(z)
+    Y = one_hot(y2, 3)
+    print("cross_entropy:", cross_entropy(P, Y))
