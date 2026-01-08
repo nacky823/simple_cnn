@@ -26,6 +26,11 @@ def cross_entropy(P: np.ndarray, Y: np.ndarray) -> float:
     return float(-np.mean(np.sum(Y * np.log(P + eps), axis=1)))
 
 
+def accuracy_from_logits(Z: np.ndarray, y: np.ndarray) -> float:
+    pred = np.argmax(Z, axis=1)
+    return float(np.mean(pred == y))
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
@@ -39,3 +44,6 @@ if __name__ == "__main__":
     P = softmax(z)
     Y = one_hot(y2, 3)
     print("cross_entropy:", cross_entropy(P, Y))
+    z2 = np.array([[0.1, 0.9, 0.0], [0.2, 0.1, 0.7]], dtype=np.float32)
+    y3 = np.array([1, 2], dtype=np.int64)
+    print("accuracy:", accuracy_from_logits(z2, y3))
