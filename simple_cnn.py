@@ -78,7 +78,12 @@ def conv2d_backward_nchw(dY, cache):
                     patch = Xp[n, :, hs:hs + HH, ws:ws + WW]
                     dW[f] += patch * grad
                     dXp[n, :, hs:hs + HH, ws:ws + WW] += W[f] * grad
-    return dXp, dW, db
+
+    if pad == 0:
+        dX = dXp
+    else:
+        dX = dXp[:, :, pad:pad + H, pad:pad + W_in]
+    return dX, dW, db
 
 
 if __name__ == "__main__":
