@@ -111,7 +111,20 @@ def verify_conv_forward_with_tf(X_nchw, W_fchw, b_f, stride, pad, atol=1e-4):
     X_tf = tf.convert_to_tensor(X_nhwc, dtype=tf.float32)
     W_tf = tf.convert_to_tensor(W_hwcf, dtype=tf.float32)
     b_tf = tf.convert_to_tensor(b_f, dtype=tf.float32)
-    return Y_np
+    if pad == 0:
+        padding = "VALID"
+    else:
+        padding = "SAME"
+        if not (pad == 1 and W_fchw.shape[2] == 3 and W_fchw.shape[3] == 3 and stride == 1):
+            raise ValueError("pad=1, 3x3, stride=1 のSAMEのみ対応")
+
+    Y_tf = tf.nn.conv2d(X_tf, W_tf, strides=[1, stride, stride, 1], padding=padding)
+    Y_tf = (Y_tf + b_tf).numpy()
+    Y_tf_nchw = np.transpose(Y_tf, (0, 3, 1, 2)).astype(np.float32)
+
+    diff = np.max(np.abs(Y_np - Y_tf_nchw))
+    print(f"[verify] max|Y_np - Y_tf| = {diff:.6g}")
+    print("[verify] OK (within tolerance)" if diff <= atol else "[verify] NG")
 
 
 if __name__ == "__main__":
