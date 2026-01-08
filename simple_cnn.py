@@ -86,6 +86,20 @@ def conv2d_backward_nchw(dY, cache):
     return dX, dW, db
 
 
+def load_mnist_nchw():
+    from tensorflow.keras.datasets import mnist
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+    x_train = (x_train.astype(np.float32) / 255.0)
+    x_test = (x_test.astype(np.float32) / 255.0)
+
+    X_train = x_train[:, None, :, :]
+    X_test = x_test[:, None, :, :]
+    y_train = y_train.astype(np.int64)
+    y_test = y_test.astype(np.int64)
+    return X_train, y_train, X_test, y_test
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
