@@ -100,6 +100,20 @@ def load_mnist_nchw():
     return X_train, y_train, X_test, y_test
 
 
+def verify_conv_forward_with_tf(X_nchw, W_fchw, b_f, stride, pad, atol=1e-4):
+    import tensorflow as tf
+
+    Y_np, _ = conv2d_forward_nchw(X_nchw, W_fchw, b_f, stride=stride, pad=pad)
+
+    X_nhwc = np.transpose(X_nchw, (0, 2, 3, 1))
+    W_hwcf = np.transpose(W_fchw, (2, 3, 1, 0))
+
+    X_tf = tf.convert_to_tensor(X_nhwc, dtype=tf.float32)
+    W_tf = tf.convert_to_tensor(W_hwcf, dtype=tf.float32)
+    b_tf = tf.convert_to_tensor(b_f, dtype=tf.float32)
+    return Y_np
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
