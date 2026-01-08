@@ -56,6 +56,18 @@ def conv2d_forward_nchw(X, W, b, stride=1, pad=1):
     return Y, cache
 
 
+def conv2d_backward_nchw(dY, cache):
+    X, W, b, stride, pad, Xp = cache
+    N, C, H, W_in = X.shape
+    F, _, HH, WW = W.shape
+    _, _, H_out, W_out = dY.shape
+
+    dXp = np.zeros_like(Xp, dtype=np.float32)
+    dW = np.zeros_like(W, dtype=np.float32)
+    db = np.zeros((F,), dtype=np.float32)
+    return dXp, dW, db
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
