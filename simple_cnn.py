@@ -127,6 +127,19 @@ def verify_conv_forward_with_tf(X_nchw, W_fchw, b_f, stride, pad, atol=1e-4):
     print("[verify] OK (within tolerance)" if diff <= atol else "[verify] NG")
 
 
+def forward_cnn(X, y, Wc, bc, W, b, stride=1, pad=1):
+    Zc, conv_cache = conv2d_forward_nchw(X, Wc, bc, stride=stride, pad=pad)
+    Ac = relu(Zc)
+    N = X.shape[0]
+    feat = Ac.reshape(N, -1)
+
+    Z = feat @ W + b
+    P = softmax(Z)
+    Y = one_hot(y, 10)
+    loss = cross_entropy(P, Y)
+    return loss, conv_cache
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
