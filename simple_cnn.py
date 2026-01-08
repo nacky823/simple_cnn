@@ -42,6 +42,16 @@ def conv2d_forward_nchw(X, W, b, stride=1, pad=1):
 
     Xp = np.pad(X, ((0, 0), (0, 0), (pad, pad), (pad, pad)), mode="constant")
     Y = np.zeros((N, F, H_out, W_out), dtype=np.float32)
+
+    for n in range(N):
+        for f in range(F):
+            for oh in range(H_out):
+                hs = oh * stride
+                for ow in range(W_out):
+                    ws = ow * stride
+                    patch = Xp[n, :, hs:hs + HH, ws:ws + WW]
+                    Y[n, f, oh, ow] = np.sum(patch * W[f]) + b[f]
+
     cache = (X, W, b, stride, pad, Xp)
     return Y, cache
 
