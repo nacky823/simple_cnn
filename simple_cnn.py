@@ -31,6 +31,21 @@ def accuracy_from_logits(Z: np.ndarray, y: np.ndarray) -> float:
     return float(np.mean(pred == y))
 
 
+def conv2d_forward_nchw(X, W, b, stride=1, pad=1):
+    N, C, H, W_in = X.shape
+    F, Cw, HH, WW = W.shape
+    assert C == Cw
+    assert b.shape == (F,)
+
+    H_out = (H + 2 * pad - HH) // stride + 1
+    W_out = (W_in + 2 * pad - WW) // stride + 1
+
+    Xp = np.pad(X, ((0, 0), (0, 0), (pad, pad), (pad, pad)), mode="constant")
+    Y = np.zeros((N, F, H_out, W_out), dtype=np.float32)
+    cache = (X, W, b, stride, pad, Xp)
+    return Y, cache
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
