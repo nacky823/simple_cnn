@@ -15,6 +15,12 @@ def softmax(Z: np.ndarray) -> np.ndarray:
     return expZ / np.sum(expZ, axis=1, keepdims=True)
 
 
+def one_hot(y: np.ndarray, K: int) -> np.ndarray:
+    Y = np.zeros((y.shape[0], K), dtype=np.float32)
+    Y[np.arange(y.shape[0]), y] = 1.0
+    return Y
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
@@ -22,3 +28,5 @@ if __name__ == "__main__":
     print("relu_backward:", relu_backward(dA, x))
     z = np.array([[1.0, 2.0, 3.0]], dtype=np.float32)
     print("softmax:", softmax(z))
+    y = np.array([0, 2], dtype=np.int64)
+    print("one_hot:", one_hot(y, 3))
