@@ -65,6 +65,19 @@ def conv2d_backward_nchw(dY, cache):
     dXp = np.zeros_like(Xp, dtype=np.float32)
     dW = np.zeros_like(W, dtype=np.float32)
     db = np.zeros((F,), dtype=np.float32)
+    for f in range(F):
+        db[f] = np.sum(dY[:, f, :, :])
+
+    for n in range(N):
+        for f in range(F):
+            for oh in range(H_out):
+                hs = oh * stride
+                for ow in range(W_out):
+                    ws = ow * stride
+                    grad = dY[n, f, oh, ow]
+                    patch = Xp[n, :, hs:hs + HH, ws:ws + WW]
+                    dW[f] += patch * grad
+                    dXp[n, :, hs:hs + HH, ws:ws + WW] += W[f] * grad
     return dXp, dW, db
 
 
