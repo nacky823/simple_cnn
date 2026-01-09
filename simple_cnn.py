@@ -137,7 +137,21 @@ def forward_cnn(X, y, Wc, bc, W, b, stride=1, pad=1):
     P = softmax(Z)
     Y = one_hot(y, 10)
     loss = cross_entropy(P, Y)
-    return loss, conv_cache
+    cache = {
+        "X": X,
+        "y": y,
+        "Y": Y,
+        "Zc": Zc,
+        "Ac": Ac,
+        "feat": feat,
+        "Z": Z,
+        "P": P,
+        "conv_cache": conv_cache,
+        "stride": stride,
+        "pad": pad,
+        "W": W,
+    }
+    return loss, cache
 
 
 if __name__ == "__main__":
