@@ -154,6 +154,17 @@ def forward_cnn(X, y, Wc, bc, W, b, stride=1, pad=1):
     return loss, cache
 
 
+def backward_cnn(cache, Wc, bc, W, b):
+    X = cache["X"]
+    Y = cache["Y"]
+    P = cache["P"]
+    Zc = cache["Zc"]
+    Ac = cache["Ac"]
+    feat = cache["feat"]
+    conv_cache = cache["conv_cache"]
+    return X, Y, P, Zc, Ac, feat, conv_cache
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
