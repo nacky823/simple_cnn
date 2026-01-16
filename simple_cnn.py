@@ -162,7 +162,12 @@ def backward_cnn(cache, Wc, bc, W, b):
     Ac = cache["Ac"]
     feat = cache["feat"]
     conv_cache = cache["conv_cache"]
-    return X, Y, P, Zc, Ac, feat, conv_cache
+    N = X.shape[0]
+
+    dZ = (P - Y) / N
+    dW = feat.T @ dZ
+    db = np.sum(dZ, axis=0)
+    return dW, db, dZ, Ac, Zc, feat, conv_cache
 
 
 if __name__ == "__main__":
