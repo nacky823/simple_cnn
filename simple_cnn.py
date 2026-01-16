@@ -167,7 +167,9 @@ def backward_cnn(cache, Wc, bc, W, b):
     dZ = (P - Y) / N
     dW = feat.T @ dZ
     db = np.sum(dZ, axis=0)
-    return dW, db, dZ, Ac, Zc, feat, conv_cache
+    dfeat = dZ @ W.T
+    dAc = dfeat.reshape(Ac.shape)
+    return dW, db, dAc, Zc, conv_cache
 
 
 if __name__ == "__main__":
