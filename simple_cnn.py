@@ -174,6 +174,17 @@ def backward_cnn(cache, Wc, bc, W, b):
     return dWc, dbc, dW, db, dX
 
 
+def train_cnn(
+    X_train, y_train, X_test, y_test,
+    F=4, HH=3, WW=3, stride=1, pad=1,
+    lr=0.1, batch_size=32, epochs=5, seed=0
+):
+    rng = np.random.default_rng(seed)
+    N, C, H, W_in = X_train.shape
+    K = 10
+    return rng, N, C, H, W_in, K
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
