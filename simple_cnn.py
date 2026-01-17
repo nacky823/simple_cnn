@@ -191,6 +191,23 @@ def train_cnn(
 
     W = (rng.standard_normal((Dfeat, K)) * np.sqrt(2.0 / Dfeat)).astype(np.float32)
     b = np.zeros((K,), dtype=np.float32)
+    steps_per_epoch = (N + batch_size - 1) // batch_size
+
+    for epoch in range(1, epochs + 1):
+        perm = rng.permutation(N)
+        last_loss = None
+        for step in range(steps_per_epoch):
+            idx = perm[step * batch_size: (step + 1) * batch_size]
+            Xb = X_train[idx]
+            yb = y_train[idx]
+            loss, cache = forward_cnn(Xb, yb, Wc, bc, W, b, stride=stride, pad=pad)
+            last_loss = loss
+            dWc, dbc, dW, db, _ = backward_cnn(cache, Wc, bc, W, b)
+            Wc -= lr * dWc
+            bc -= lr * dbc
+            W -= lr * dW
+            b -= lr * db
+        print(f\"epoch {epoch:2d}/{epochs}  last_loss {last_loss:.4f}\")
     return Wc, bc, W, b
 
 
