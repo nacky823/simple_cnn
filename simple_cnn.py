@@ -207,7 +207,11 @@ def train_cnn(
             bc -= lr * dbc
             W -= lr * dW
             b -= lr * db
-        print(f\"epoch {epoch:2d}/{epochs}  last_loss {last_loss:.4f}\")
+        tr_logits = predict_logits(X_train, Wc, bc, W, b, stride=stride, pad=pad)
+        te_logits = predict_logits(X_test, Wc, bc, W, b, stride=stride, pad=pad)
+        tr_acc = accuracy_from_logits(tr_logits, y_train)
+        te_acc = accuracy_from_logits(te_logits, y_test)
+        print(f"epoch {epoch:2d}/{epochs}  last_loss {last_loss:.4f}  train_acc {tr_acc:.4f}  test_acc {te_acc:.4f}")
     return Wc, bc, W, b
 
 
