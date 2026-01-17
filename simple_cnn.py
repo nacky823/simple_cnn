@@ -211,6 +211,13 @@ def train_cnn(
     return Wc, bc, W, b
 
 
+def predict_logits(X, Wc, bc, W, b, stride=1, pad=1):
+    Zc, _ = conv2d_forward_nchw(X, Wc, bc, stride=stride, pad=pad)
+    Ac = relu(Zc)
+    feat = Ac.reshape(Ac.shape[0], -1)
+    return feat @ W + b
+
+
 if __name__ == "__main__":
     x = np.array([-1.0, 0.5, 2.0], dtype=np.float32)
     print("relu:", relu(x))
