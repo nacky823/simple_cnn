@@ -182,7 +182,16 @@ def train_cnn(
     rng = np.random.default_rng(seed)
     N, C, H, W_in = X_train.shape
     K = 10
-    return rng, N, C, H, W_in, K
+    Wc = (rng.standard_normal((F, C, HH, WW)) * np.sqrt(2.0 / (C * HH * WW))).astype(np.float32)
+    bc = np.zeros((F,), dtype=np.float32)
+
+    H_out = (H + 2 * pad - HH) // stride + 1
+    W_out = (W_in + 2 * pad - WW) // stride + 1
+    Dfeat = F * H_out * W_out
+
+    W = (rng.standard_normal((Dfeat, K)) * np.sqrt(2.0 / Dfeat)).astype(np.float32)
+    b = np.zeros((K,), dtype=np.float32)
+    return Wc, bc, W, b
 
 
 if __name__ == "__main__":
