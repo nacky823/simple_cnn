@@ -229,3 +229,14 @@ if __name__ == "__main__":
     print("  y_train:", y_train.shape, y_train.dtype, "labels", (int(y_train.min()), int(y_train.max())))
     print("  X_test :", X_test.shape, X_test.dtype)
     print("  y_test :", y_test.shape, y_test.dtype)
+
+    X_train_s = X_train[:200]
+    y_train_s = y_train[:200]
+    X_test_s = X_test[:100]
+    y_test_s = y_test[:100]
+
+    F = 4
+    HH = 3
+    WW = 3
+    stride = 1
+    pad = 1
