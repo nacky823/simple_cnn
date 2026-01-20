@@ -240,3 +240,8 @@ if __name__ == "__main__":
     WW = 3
     stride = 1
     pad = 1
+
+    rng = np.random.default_rng(0)
+    Wc_tmp = (rng.standard_normal((F, 1, HH, WW)) * np.sqrt(2.0 / (1 * HH * WW))).astype(np.float32)
+    bc_tmp = np.zeros((F,), dtype=np.float32)
+    verify_conv_forward_with_tf(X_train_s[:8], Wc_tmp, bc_tmp, stride=stride, pad=pad, atol=1e-4)
