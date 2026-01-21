@@ -245,3 +245,15 @@ if __name__ == "__main__":
     Wc_tmp = (rng.standard_normal((F, 1, HH, WW)) * np.sqrt(2.0 / (1 * HH * WW))).astype(np.float32)
     bc_tmp = np.zeros((F,), dtype=np.float32)
     verify_conv_forward_with_tf(X_train_s[:8], Wc_tmp, bc_tmp, stride=stride, pad=pad, atol=1e-4)
+
+    Wc, bc, W, b = train_cnn(
+        X_train_s, y_train_s, X_test_s, y_test_s,
+        F=F, HH=HH, WW=WW, stride=stride, pad=pad,
+        lr=0.1, batch_size=20, epochs=5, seed=0
+    )
+
+    tr_logits = predict_logits(X_train_s, Wc, bc, W, b, stride=stride, pad=pad)
+    te_logits = predict_logits(X_test_s, Wc, bc, W, b, stride=stride, pad=pad)
+    print("\nFinal (subset, trainable conv):")
+    print("  train_acc:", accuracy_from_logits(tr_logits, y_train_s))
+    print("  test_acc :", accuracy_from_logits(te_logits, y_test_s))
