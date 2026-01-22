@@ -9,3 +9,13 @@ MNIST を対象としたシンプルな CNN の実装です．
 + Python: 3.10.12
 + NumPy: 2.2.6
 + TensorFlow: 2.20.0
+
+## Install & Run
+
+```bash
+git clone https://github.com/nacky823/simple_cnn.git
+cd simple_cnn
+```
+```bash
+python3 simple_cnn.py
+```
