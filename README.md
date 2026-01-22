@@ -76,3 +76,12 @@ P = \mathrm{softmax}(Z), \quad
 $$
 
 を最小化するように，$W_c, b_c, W, b$ を更新する．
+
+
+## References
+
+1. A. Krizhevsky, I. Sutskever, and G. E. Hinton, “ImageNet Classification with Deep Convolutional Neural Networks,” in *NIPS*, 2012.
+
+1. TensorFlow Developers, “[tf.keras.datasets.mnist.load_data](www.tensorflow.org/api_docs/python/tf/keras/datasets/mnist/load_data),” TensorFlow API Documentation, (accessed 2026-01-23).
+
+1. TensorFlow Developers, “[tf.nn.conv2d](www.tensorflow.org/api_docs/python/tf/nn/conv2d),” TensorFlow API Documentation, (accessed 2026-01-23).
