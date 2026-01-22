@@ -40,3 +40,39 @@ Final (subset, trainable conv):
   train_acc: 0.995
   test_acc : 0.78
 ```
+
+## Model description
+
+入力画像を $x \in \mathbb{R}^{1 \times 28 \times 28}$ とし，バッチサイズ $N$ の入力を
+$X \in \mathbb{R}^{N \times 1 \times 28 \times 28}$ とする．
+畳み込み層の重みとバイアスを $W_c, b_c$ とすると，特徴マップ上の位置 $(h, w)$ とフィルタ $f$ に対する畳み込みの出力は
+
+$$
+Z_c[n,f,h,w] =
+\sum_{c}\sum_{i}\sum_{j}
+W_c[f,c,i,j]\,
+X_p[n,c,h\cdot s+i,\, w\cdot s+j] + b_c[f]
+$$
+
+と表せる．$f$ はフィルタ，$c$ は入力チャンネル，$(h,w)$ は特徴マップ上の位置，$(i,j)$ はカーネル内の位置，$X_p$ はパディング後の入力，$s$ はストライドである．
+
+これに活性化関数として ReLU を適用する．
+
+$$
+A_c = \mathrm{ReLU}(Z_c)
+$$
+
+次に，$A_c$ を平坦化して特徴ベクトル $F$ を作り，全結合層でクラスごとのスコアを得る．
+
+$$
+F = \mathrm{flatten}(A_c), \quad Z = F W + b
+$$
+
+ソフトマックスで確率 $P$ を計算し，正解ラベル $Y$ との交差エントロピー損失
+
+$$
+P = \mathrm{softmax}(Z), \quad
+\mathcal{L} = -\frac{1}{N}\sum_{i=1}^N \sum_{k=1}^K Y_{ik}\log(P_{ik})
+$$
+
+を最小化するように，$W_c, b_c, W, b$ を更新する．
