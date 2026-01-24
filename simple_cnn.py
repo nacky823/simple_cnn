@@ -295,8 +295,18 @@ def save_first_layer_filters(Wc, path, ncols=8):
 
     fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 1.6, nrows * 1.6))
     axes = np.array(axes).reshape(-1)
-    for ax in axes:
+    for i, ax in enumerate(axes):
         ax.axis("off")
+        if i >= n:
+            continue
+        filt = Wc[i, 0]
+        fmin, fmax = float(filt.min()), float(filt.max())
+        if fmax > fmin:
+            img = (filt - fmin) / (fmax - fmin)
+        else:
+            img = np.zeros_like(filt)
+        ax.imshow(img, cmap="gray", vmin=0.0, vmax=1.0)
+        ax.set_title(f"f{i}", fontsize=8)
     fig.tight_layout()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     fig.savefig(path, dpi=150)
