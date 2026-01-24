@@ -313,6 +313,34 @@ def save_first_layer_filters(Wc, path, ncols=8):
     plt.close(fig)
 
 
+def save_feature_maps(X, Wc, bc, path, sample_indices=None, num_samples=5, stride=1, pad=1, ncols=5):
+    import os
+    import matplotlib.pyplot as plt
+
+    if sample_indices is None:
+        sample_indices = list(range(min(num_samples, X.shape[0])))
+    else:
+        sample_indices = list(sample_indices)[:num_samples]
+
+    Xb = X[sample_indices]
+    Zc, _ = conv2d_forward_nchw(Xb, Wc, bc, stride=stride, pad=pad)
+    Ac = relu(Zc)  # (N, F, H, W)
+
+    N = Ac.shape[0]
+    F = Ac.shape[1]
+    ncols = min(ncols, N)
+    nrows = F + 1  # input + feature maps
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 2.2, nrows * 2.0))
+    axes = np.array(axes).reshape(nrows, ncols)
+    for ax in axes.reshape(-1):
+        ax.axis("off")
+    fig.tight_layout()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     X_train, y_train, X_test, y_test = load_mnist_nchw()
     print("MNIST loaded (NCHW):")
