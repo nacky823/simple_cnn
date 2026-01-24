@@ -396,3 +396,7 @@ if __name__ == "__main__":
         X_test_s, y_test_s, te_logits,
         path="outputs/pred_grid.png", max_images=25, ncols=5
     )
+    save_misclassified_grid(
+        X_test_s, y_test_s, te_logits,
+        path="outputs/misclassified.png", max_images=25, ncols=5
+    )
