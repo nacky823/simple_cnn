@@ -35,13 +35,15 @@ MNIST loaded (NCHW):
   y_test : (10000,) int64
 [verify] max|Y_np - Y_tf| = 4.76837e-07
 [verify] OK (within tolerance)
-epoch  1/5  last_loss 1.2848  train_acc 0.7000  test_acc 0.6200
-...
-epoch  5/5  last_loss 0.0338  train_acc 0.9950  test_acc 0.7800
+epoch  1/5  last_loss 0.5570  train_acc 0.6800  test_acc 0.6300
+epoch  2/5  last_loss 0.3515  train_acc 0.8760  test_acc 0.8050
+epoch  3/5  last_loss 0.2569  train_acc 0.9050  test_acc 0.8650
+epoch  4/5  last_loss 0.3854  train_acc 0.9350  test_acc 0.8750
+epoch  5/5  last_loss 0.1842  train_acc 0.9480  test_acc 0.9000
 
 Final (subset, trainable conv):
-  train_acc: 0.995
-  test_acc : 0.78
+  train_acc: 0.948
+  test_acc : 0.9
 ```
 
 また、学習後に `outputs/` へ以下の可視化画像が出力されます．
