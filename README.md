@@ -76,7 +76,7 @@ P = \mathrm{softmax}(Z), \quad
 \mathcal{L} = -\frac{1}{N}\sum_{i=1}^N \sum_{k=1}^K Y_{ik}\log(P_{ik})
 $$
 
-を最小化するように，$W_c, b_c, W, b$ を更新する．
+を最小化するように， $W_c, b_c, W, b$ を更新する．
 
 
 ## References
