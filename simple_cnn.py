@@ -251,6 +251,34 @@ def save_prediction_grid(X, y_true, logits, path, max_images=25, ncols=5):
     plt.close(fig)
 
 
+def save_misclassified_grid(X, y_true, logits, path, max_images=25, ncols=5):
+    import os
+    import matplotlib.pyplot as plt
+
+    y_pred = np.argmax(logits, axis=1)
+    miss_idx = np.where(y_pred != y_true)[0]
+    if miss_idx.size == 0:
+        print("[viz] no misclassifications to plot")
+        return
+    miss_idx = miss_idx[:max_images]
+    X_img = X[miss_idx, 0]
+    y_true_m = y_true[miss_idx]
+    y_pred_m = y_pred[miss_idx]
+
+    n = X_img.shape[0]
+    ncols = min(ncols, n)
+    nrows = int(np.ceil(n / ncols))
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 2.2, nrows * 2.2))
+    axes = np.array(axes).reshape(-1)
+    for ax in axes:
+        ax.axis("off")
+    fig.tight_layout()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     X_train, y_train, X_test, y_test = load_mnist_nchw()
     print("MNIST loaded (NCHW):")
