@@ -283,6 +283,26 @@ def save_misclassified_grid(X, y_true, logits, path, max_images=25, ncols=5):
     plt.close(fig)
 
 
+def save_first_layer_filters(Wc, path, ncols=8):
+    import os
+    import matplotlib.pyplot as plt
+
+    F, C, HH, WW = Wc.shape
+    assert C == 1, "only single-channel filters are supported"
+    n = F
+    ncols = min(ncols, n)
+    nrows = int(np.ceil(n / ncols))
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 1.6, nrows * 1.6))
+    axes = np.array(axes).reshape(-1)
+    for ax in axes:
+        ax.axis("off")
+    fig.tight_layout()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     X_train, y_train, X_test, y_test = load_mnist_nchw()
     print("MNIST loaded (NCHW):")
