@@ -404,3 +404,8 @@ if __name__ == "__main__":
         Wc,
         path="outputs/filters.png", ncols=8
     )
+    save_feature_maps(
+        X_test_s, Wc, bc,
+        path="outputs/feature_maps.png",
+        num_samples=5, stride=stride, pad=pad, ncols=5
+    )
