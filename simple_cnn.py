@@ -224,6 +224,27 @@ def predict_logits(X, Wc, bc, W, b, stride=1, pad=1):
     return feat @ W + b
 
 
+def save_prediction_grid(X, y_true, logits, path, max_images=25, ncols=5):
+    import os
+    import matplotlib.pyplot as plt
+
+    X_img = X[:max_images, 0]
+    y_true = y_true[:max_images]
+    y_pred = np.argmax(logits[:max_images], axis=1)
+    n = X_img.shape[0]
+    ncols = min(ncols, n) if n > 0 else 1
+    nrows = int(np.ceil(n / ncols))
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 2.2, nrows * 2.2))
+    axes = np.array(axes).reshape(-1)
+    for ax in axes:
+        ax.axis("off")
+    fig.tight_layout()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     X_train, y_train, X_test, y_test = load_mnist_nchw()
     print("MNIST loaded (NCHW):")
