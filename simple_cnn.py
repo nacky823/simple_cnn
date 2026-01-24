@@ -244,7 +244,7 @@ def save_prediction_grid(X, y_true, logits, path, max_images=25, ncols=5):
         ax.imshow(X_img[i], cmap="gray", vmin=0.0, vmax=1.0)
         correct = (y_pred[i] == y_true[i])
         color = "green" if correct else "red"
-        ax.set_title(f"p={y_pred[i]} t={y_true[i]}", color=color, fontsize=9)
+        ax.set_title(f"pred={y_pred[i]} true={y_true[i]}", color=color, fontsize=18)
     fig.tight_layout()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     fig.savefig(path, dpi=150)
@@ -276,7 +276,7 @@ def save_misclassified_grid(X, y_true, logits, path, max_images=25, ncols=5):
         if i >= n:
             continue
         ax.imshow(X_img[i], cmap="gray", vmin=0.0, vmax=1.0)
-        ax.set_title(f"p={y_pred_m[i]} t={y_true_m[i]}", color="red", fontsize=9)
+        ax.set_title(f"pred={y_pred_m[i]} true={y_true_m[i]}", color="red", fontsize=18)
     fig.tight_layout()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     fig.savefig(path, dpi=150)
@@ -306,7 +306,7 @@ def save_first_layer_filters(Wc, path, ncols=8):
         else:
             img = np.zeros_like(filt)
         ax.imshow(img, cmap="gray", vmin=0.0, vmax=1.0)
-        ax.set_title(f"f{i}", fontsize=8)
+        ax.set_title(f"filter{i}", fontsize=24)
     fig.tight_layout()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     fig.savefig(path, dpi=150)
@@ -339,9 +339,9 @@ def save_feature_maps(X, Wc, bc, path, sample_indices=None, num_samples=5, strid
             ax.axis("off")
             if c == 0:
                 ax.imshow(Xb[r, 0], cmap="gray", vmin=0.0, vmax=1.0)
-                ax.set_ylabel(f"input[{sample_indices[r]}]", fontsize=8)
+                ax.set_ylabel(f"input[{sample_indices[r]}]", fontsize=24)
                 if r == 0:
-                    ax.set_title("input", fontsize=8)
+                    ax.set_title("input", fontsize=24)
                 continue
             fmap = Ac[r, c - 1]
             fmin, fmax = float(fmap.min()), float(fmap.max())
@@ -351,7 +351,7 @@ def save_feature_maps(X, Wc, bc, path, sample_indices=None, num_samples=5, strid
                 img = np.zeros_like(fmap)
             ax.imshow(img, cmap="gray", vmin=0.0, vmax=1.0)
             if r == 0:
-                ax.set_title(f"filter{c - 1}", fontsize=8)
+                ax.set_title(f"filter{c - 1}", fontsize=24)
     fig.tight_layout()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     fig.savefig(path, dpi=150)
