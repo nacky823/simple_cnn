@@ -237,8 +237,14 @@ def save_prediction_grid(X, y_true, logits, path, max_images=25, ncols=5):
 
     fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 2.2, nrows * 2.2))
     axes = np.array(axes).reshape(-1)
-    for ax in axes:
+    for i, ax in enumerate(axes):
         ax.axis("off")
+        if i >= n:
+            continue
+        ax.imshow(X_img[i], cmap="gray", vmin=0.0, vmax=1.0)
+        correct = (y_pred[i] == y_true[i])
+        color = "green" if correct else "red"
+        ax.set_title(f"p={y_pred[i]} t={y_true[i]}", color=color, fontsize=9)
     fig.tight_layout()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     fig.savefig(path, dpi=150)
