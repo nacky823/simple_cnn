@@ -10,6 +10,7 @@ MNIST を対象としたシンプルな CNN の実装です．
 + Python: 3.10.12
 + NumPy: 2.2.6
 + TensorFlow: 2.20.0
++ Matplotlib: 3.10.8
 
 ## Install & Run
 
