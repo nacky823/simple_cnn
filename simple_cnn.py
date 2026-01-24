@@ -391,3 +391,8 @@ if __name__ == "__main__":
     print("\nFinal (subset, trainable conv):")
     print("  train_acc:", accuracy_from_logits(tr_logits, y_train_s))
     print("  test_acc :", accuracy_from_logits(te_logits, y_test_s))
+
+    save_prediction_grid(
+        X_test_s, y_test_s, te_logits,
+        path="outputs/pred_grid.png", max_images=25, ncols=5
+    )
