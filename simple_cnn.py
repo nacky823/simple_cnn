@@ -333,8 +333,23 @@ def save_feature_maps(X, Wc, bc, path, sample_indices=None, num_samples=5, strid
 
     fig, axes = plt.subplots(nrows, ncols, figsize=(ncols * 2.2, nrows * 2.0))
     axes = np.array(axes).reshape(nrows, ncols)
-    for ax in axes.reshape(-1):
-        ax.axis("off")
+    for c in range(ncols):
+        for r in range(nrows):
+            ax = axes[r, c]
+            ax.axis("off")
+            if r == 0:
+                ax.imshow(Xb[c, 0], cmap="gray", vmin=0.0, vmax=1.0)
+                ax.set_title(f"input[{sample_indices[c]}]", fontsize=8)
+                continue
+            fmap = Ac[c, r - 1]
+            fmin, fmax = float(fmap.min()), float(fmap.max())
+            if fmax > fmin:
+                img = (fmap - fmin) / (fmax - fmin)
+            else:
+                img = np.zeros_like(fmap)
+            ax.imshow(img, cmap="gray", vmin=0.0, vmax=1.0)
+            if c == 0:
+                ax.set_ylabel(f"f{r - 1}", fontsize=8)
     fig.tight_layout()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     fig.savefig(path, dpi=150)
