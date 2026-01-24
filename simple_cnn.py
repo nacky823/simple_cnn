@@ -364,10 +364,10 @@ if __name__ == "__main__":
     print("  X_test :", X_test.shape, X_test.dtype)
     print("  y_test :", y_test.shape, y_test.dtype)
 
-    X_train_s = X_train[:200]
-    y_train_s = y_train[:200]
-    X_test_s = X_test[:100]
-    y_test_s = y_test[:100]
+    X_train_s = X_train[:1000]
+    y_train_s = y_train[:1000]
+    X_test_s = X_test[:200]
+    y_test_s = y_test[:200]
 
     F = 4
     HH = 3
