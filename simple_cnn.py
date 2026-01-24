@@ -383,7 +383,7 @@ if __name__ == "__main__":
     Wc, bc, W, b = train_cnn(
         X_train_s, y_train_s, X_test_s, y_test_s,
         F=F, HH=HH, WW=WW, stride=stride, pad=pad,
-        lr=0.1, batch_size=20, epochs=5, seed=0
+        lr=0.05, batch_size=20, epochs=5, seed=42
     )
 
     tr_logits = predict_logits(X_train_s, Wc, bc, W, b, stride=stride, pad=pad)
